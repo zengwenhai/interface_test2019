@@ -80,4 +80,3 @@ if __name__ == '__main__':
               message='test',
               path=r'E:\接口测试\data\report\2019-09-26-16-53-25report.html')
     e.send()
-    #e.attach_file(att_file=r'E:\接口测试\data\report\2019-09-26-16-53-25report.html')
