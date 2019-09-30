@@ -10,6 +10,8 @@ def encrypt(string, salt='', encrypt_way='MD5'):
         hash_string = hashlib.sha1()
     else:
         return False
+    hash_string.update(string.encode())
+    return hash_string.hexdigest()
 
 
 def sign(sing_dict, private_key=None, encrypt_way='MD5'):
