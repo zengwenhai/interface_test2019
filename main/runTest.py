@@ -1,12 +1,11 @@
 import unittest
 import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from config.getPath import getpath
 from utils.HTMLTestRunner_PY3 import HTMLTestRunner
 from BeautifulReport import BeautifulReport
 from utils.getTime import get_time
-import sys
-print(sys.path)
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 
 class AllTest(object):
