@@ -1,7 +1,9 @@
 import unittest
-import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config'))
+import os
+curPath = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(curPath)[0]
+sys.path.append(rootPath)
 from config.getPath import getpath
 from utils.HTMLTestRunner_PY3 import HTMLTestRunner
 from BeautifulReport import BeautifulReport
