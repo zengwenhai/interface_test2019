@@ -4,6 +4,8 @@ from config.getPath import getpath
 from utils.HTMLTestRunner_PY3 import HTMLTestRunner
 from BeautifulReport import BeautifulReport
 from utils.getTime import get_time
+import sys
+sys.path.append('E:\接口测试\config')
 
 
 class AllTest(object):
