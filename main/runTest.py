@@ -5,7 +5,8 @@ from utils.HTMLTestRunner_PY3 import HTMLTestRunner
 from BeautifulReport import BeautifulReport
 from utils.getTime import get_time
 import sys
-sys.path.append('E:\接口测试\config')
+print(sys.path)
+sys.path.append('E:\\接口测试\\main')
 
 
 class AllTest(object):
