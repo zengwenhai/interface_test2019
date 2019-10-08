@@ -6,7 +6,7 @@ from BeautifulReport import BeautifulReport
 from utils.getTime import get_time
 import sys
 print(sys.path)
-sys.path.append('E:\\接口测试\\main')
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 
 class AllTest(object):
