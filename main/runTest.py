@@ -1,7 +1,7 @@
 import unittest
 import os
 import sys
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+sys.path.append('E:\接口测试\main')
 from config.getPath import getpath
 from utils.HTMLTestRunner_PY3 import HTMLTestRunner
 from BeautifulReport import BeautifulReport
