@@ -1,4 +1,5 @@
 import re
+import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -27,13 +28,19 @@ class Email(object):
         self.message = message
         self.msg = MIMEMultipart('related')
 
+    def get_new_file(self, report_path):
+        """根据文件最近的修改时间获取最新的测试报告"""
+        lists = os.listdir(report_path)  # 获取该目录下的所有文件，结果以列表形式返回
+        lists.sort(key=lambda fn: os.path.getmtime(os.path.join(report_path, fn)))  # 最后对lists元素，按文件修改时间大小从小到大排序
+        file_path = os.path.join(report_path, lists[-1])
+        return file_path
+
     def attach_file(self, att_file):
         """将单个文件添加到附件列表中"""
         att = MIMEText(open('%s' % att_file, 'rb').read(), 'plain', 'utf-8')
         att['Content-Type'] = 'application/octet-stream'
         file_name = re.split(r'[\\|/]', att_file)
-        print(file_name)
-        att['Content-Disposition'] = 'attachment; filename="%s"' % file_name[-1]
+        att['Content-Disposition'] = 'attachment; filename="%s"' % file_name[-1].encode('utf-8')
         self.msg.attach(att)
 
     def send(self):
@@ -47,13 +54,12 @@ class Email(object):
             self.msg.attach(MIMEText(self.message))
 
         # 添加附近，支持多个附近传入(传入list)或者单个附件(传入str)
-        if self.files:
-            if isinstance(self.files, list):
-                for f in self.files:
+        if self.get_new_file(self.files):
+            if isinstance(self.get_new_file(self.files), list):
+                for f in self.get_new_file(self.files):
                     self.attach_file(f)
-            elif isinstance(self.files, str):
-                self.attach_file(self.files)
-        print(type(self.files))
+            elif isinstance(self.get_new_file(self.files), str):
+                self.attach_file(self.get_new_file(self.files))
 
         # 连接服务器并发送
         try:
@@ -78,5 +84,6 @@ if __name__ == '__main__':
               receiver='374448636@qq.com',
               title='测试报告',
               message='test',
-              path=r'E:\接口测试\data\report\2019-09-26-16-53-25report.html')
+              path=r'E:\接口测试\data\report')
     e.send()
+    print(e.get_new_file(r'E:\接口测试\data\report'))
