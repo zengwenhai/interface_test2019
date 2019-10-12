@@ -14,3 +14,7 @@ reportname = 'report%s.html' % nowtime
 print(reportname)
 
 print(os.path.dirname(os.path.dirname(__file__)))
+
+url = 'http://baidu.com'
+params = '/username=zengwenhai'
+print(url + params)

@@ -43,12 +43,7 @@ class AllTest(object):
 
 if __name__ == '__main__':
     alltest = AllTest()
-    e = Email(server='smtp.126.com',
-              sender='zwh2537@126.com',
-              password='ABc19891969',
-              receiver='374448636@qq.com',
-              title='测试报告',
-              message='test',
+    e = Email(message='test',
               path=r'E:\接口测试\data\report')
     alltest.run()
     time.sleep(8)

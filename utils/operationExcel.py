@@ -32,6 +32,10 @@ class OperationExcel(object):
         """获取用例列表中的请求方法参数"""
         return self.get_row_col_value(row, int(self.getdatacol.get_method_col()))
 
+    def get_excute(self, row):
+        """获取用例列表中的是否执行参数"""
+        return self.get_row_col_value(row, int(self.getdatacol.get_isexute_col()))
+
     def write_value(self, row, value):
         """写入数据"""
         data = copy(self.operexcel)

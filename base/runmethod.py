@@ -31,8 +31,8 @@ class RunMethod(object):
 
 
 if __name__ == '__main__':
-    method = 'get'
+    method = 'post'
     url = 'http://127.0.0.1:5000/login'
     data = {'username': 'zengwenhai', 'password': 123456}
-    r = RunMethod().run_main(url=url, params=data, method=method)
+    r = RunMethod().run_main(url=url, data=data, method=method)
     print(r.text)

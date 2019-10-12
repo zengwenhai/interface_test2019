@@ -4,11 +4,12 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from socket import gaierror, error
+from config.readConfig import ReadConfig
 
 
 class Email(object):
 
-    def __init__(self, server, sender, password, receiver, title, message=None, path=None):
+    def __init__(self, message=None, path=None):
         """
 
         :param server:
@@ -19,11 +20,12 @@ class Email(object):
         :param message:
         :param path:
         """
-        self.server = server
-        self.sender = sender
-        self.password = password
-        self.receiver = receiver
-        self.title = title
+        self.readconf = ReadConfig('config', 'conf.ini')
+        self.server = self.readconf.get_section_value('EMAIL', 'SERVER')
+        self.sender = self.readconf.get_section_value('EMAIL', 'SENDER')
+        self.password = self.readconf.get_section_value('EMAIL', 'PASSWORD')
+        self.receiver = self.readconf.get_section_value('EMAIL', 'RECEIVER')
+        self.title = self.readconf.get_section_value('EMAIL', 'TITLE')
         self.files = path
         self.message = message
         self.msg = MIMEMultipart('related')
@@ -69,6 +71,7 @@ class Email(object):
         else:
             try:
                 smtp_server.login(self.sender, self.password)
+                print('邮件发送成功，如果收件箱没看到邮件，请查看一下垃圾箱！')
             except smtplib.SMTPAuthenticationError as e:
                 raise ("用户名密码验证失败！%s", e)
             else:
@@ -78,12 +81,7 @@ class Email(object):
 
 
 if __name__ == '__main__':
-    e = Email(server='smtp.126.com',
-              sender='zwh2537@126.com',
-              password='ABc19891969',
-              receiver='374448636@qq.com',
-              title='测试报告',
-              message='test',
+    e = Email(message='test',
               path=r'E:\接口测试\data\report')
     e.send()
     print(e.get_new_file(r'E:\接口测试\data\report'))

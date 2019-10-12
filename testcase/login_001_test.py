@@ -34,6 +34,8 @@ class LoginTest(unittest.TestCase):
         flag = assert_code(res.json()['code'])
         if flag == True:
             self.oper.write_value(1, 'pass')
+        else:
+            self.oper.write_value(1, 'fail')
         print(url)
         print(type(data))
         print(method)
