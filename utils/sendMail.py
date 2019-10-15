@@ -5,11 +5,12 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from socket import gaierror, error
 from config.readConfig import ReadConfig
+from config.readYaml import ReadYaml
 
 
 class Email(object):
 
-    def __init__(self, message=None, path=None):
+    def __init__(self):
         """
 
         :param server:
@@ -21,21 +22,32 @@ class Email(object):
         :param path:
         """
         self.readconf = ReadConfig('config', 'conf.ini')
+        self.readyaml = ReadYaml()
         self.server = self.readconf.get_section_value('EMAIL', 'SERVER')
         self.sender = self.readconf.get_section_value('EMAIL', 'SENDER')
         self.password = self.readconf.get_section_value('EMAIL', 'PASSWORD')
         self.receiver = self.readconf.get_section_value('EMAIL', 'RECEIVER')
         self.title = self.readconf.get_section_value('EMAIL', 'TITLE')
-        self.files = path
-        self.message = message
+        # self.files = self.readconf.get_section_value('EMAIL', 'REPORT_PATH')
+        self.files = self.readyaml.get_value()['EMAIL']['REPORT_PATH']
+        self.message = self.readconf.get_section_value('EMAIL', 'MESSAGE')
         self.msg = MIMEMultipart('related')
 
-    def get_new_file(self, report_path):
-        """根据文件最近的修改时间获取最新的测试报告"""
-        lists = os.listdir(report_path)  # 获取该目录下的所有文件，结果以列表形式返回
-        lists.sort(key=lambda fn: os.path.getmtime(os.path.join(report_path, fn)))  # 最后对lists元素，按文件修改时间大小从小到大排序
-        file_path = os.path.join(report_path, lists[-1])
+    def file_sort(self, path):
+        lists = os.listdir(path)  # 获取该目录下的所有文件，结果以列表形式返回
+        lists.sort(key=lambda fn: os.path.getmtime(os.path.join(path, fn)))  # 最后对lists元素，按文件修改时间大小从小到大排序
+        file_path = os.path.join(path, lists[-1])
         return file_path
+
+    def get_new_file(self, path):
+        """根据文件最近的修改时间获取最新的测试报告"""
+        file_path_list = []
+        if isinstance(path, list):
+            for i in path:
+                file_path_list.append(self.file_sort(i))
+            return file_path_list
+        elif isinstance(path, str):
+            return self.file_sort(path)
 
     def attach_file(self, att_file):
         """将单个文件添加到附件列表中"""
@@ -81,7 +93,6 @@ class Email(object):
 
 
 if __name__ == '__main__':
-    e = Email(message='test',
-              path=r'E:\接口测试\data\report')
+    e = Email()
     e.send()
-    print(e.get_new_file(r'E:\接口测试\data\report'))
+    # print(e.get_new_file(r'E:\接口测试\data\report'))

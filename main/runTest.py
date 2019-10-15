@@ -11,6 +11,7 @@ from utils.HTMLTestRunner_PY3 import HTMLTestRunner
 from BeautifulReport import BeautifulReport
 from utils.getTime import get_time
 from utils.sendMail import Email
+from config.readConfig import ReadConfig
 
 
 class AllTest(object):
@@ -19,6 +20,8 @@ class AllTest(object):
         # self.report_path = os.path.join(getpath('data', 'report'), '%sreport.html' % get_time())
         self.report_path = os.path.join(getpath('data', 'report'))
         self.test_path = getpath('testcase', '')
+        self.readconf = ReadConfig('config', 'conf.ini')
+        self.email = Email()
 
     def add_suite_test(self):
         discover = unittest.defaultTestLoader.discover(
@@ -26,6 +29,7 @@ class AllTest(object):
             pattern='*test.py',
             top_level_dir=None
         )
+        print(self.test_path)
         return discover
 
     def run(self):
@@ -35,16 +39,23 @@ class AllTest(object):
         #                             title='测试报告',
         #                             verbosity=2)
         #     runner.run(self.add_suite_test())
-        runner = BeautifulReport(self.add_suite_test())
-        runner.report(filename='TestReport%s' % get_time(),
+        try:
+            runner = BeautifulReport(self.add_suite_test())
+            runner.report(filename='TestReport%s' % get_time(),
                       description='测试接口报告',
                       log_path=self.report_path)
+        except Exception as e:
+            print(e)
+        finally:
+            on_off = self.readconf.get_section_value('EMAIL', 'ON_OFF')
+            print(on_off)
+            if on_off == 'on':
+                self.email.send()
+            else:
+                print('不发送邮件！')
 
 
 if __name__ == '__main__':
     alltest = AllTest()
-    e = Email(message='test',
-              path=r'E:\接口测试\data\report')
     alltest.run()
-    time.sleep(8)
-    e.send()
+    print(alltest.add_suite_test())
