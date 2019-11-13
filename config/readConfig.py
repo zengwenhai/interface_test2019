@@ -45,4 +45,5 @@ if __name__ == "__main__":
     conf = ReadConfig('config', 'conf.ini')
     print(conf.get_section('DATABASE'))
     print(conf.get_section_value('DATABASE', 'IP'))
-    conf.write_section_value('HTTP', 'TOKEN', '12345')
+    # conf.write_section_value('HTTP', 'TOKEN', '12345')
+    # print(urljoin(conf.get_section_value('HTTP', 'BASE_URL'), 'login/123'))

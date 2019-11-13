@@ -3,25 +3,30 @@ from utils.rundecorator import run_test
 from utils.operationExcel import OperationExcel
 from utils.operationJson import OperationJson
 from base.runmethod import RunMethod
+from config.readConfig import ReadConfig
 from utils.assertTest import assert_code
 from utils.rundecorator import run_test
+from urllib.parse import urljoin
 import json
 
 
 class LoginTest(unittest.TestCase):
 
     def setUp(self):
-        self.oper = OperationExcel()
-        self.operjson = OperationJson()
+        self.oper = OperationExcel('Sheet1')
+        self.operjson = OperationJson('Sheet1')
         self.runmethod = RunMethod()
+        self.readconfig = ReadConfig('config', 'conf.ini')
 
     def test_login_001(self):
         """测试登录成功"""
-        url = self.oper.get_url(2)
+        # url = self.oper.get_url(2)
+        url = urljoin(self.readconfig.get_section_value('HTTP', 'BASE_URL'), self.oper.get_data(2))  # 拼接url路径
         # data = json.loads(self.oper.get_data(2), encoding='utf-8')
         data = self.operjson.get_request_data(2)
         method = self.oper.get_method(2)
         res = self.runmethod.run_main(url=url, data=data, method=method)
+        print(url)
 
     @unittest.skip("跳过该测试案例")
     def test_login_002(self):

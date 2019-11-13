@@ -42,7 +42,7 @@ class AllTest(object):
         try:
             runner = BeautifulReport(self.add_suite_test())
             runner.report(filename='TestReport%s' % get_time(),
-                      description='测试接口报告',
+                      description='测试登录接口',
                       log_path=self.report_path)
         except Exception as e:
             print(e)

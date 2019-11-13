@@ -6,10 +6,10 @@ from utils.getDataRow import GetRow
 
 class OperationExcel(object):
 
-    def __init__(self):
+    def __init__(self, sheetname):
         self.path = getpath('data', 'test.xls')
         self.operexcel = xlrd.open_workbook(self.path)
-        self.sheet = self.operexcel.sheet_by_name('Sheet1')
+        self.sheet = self.operexcel.sheet_by_name(sheetname)
         self.getdatacol = GetRow()
 
     def get_rows(self):
@@ -45,7 +45,7 @@ class OperationExcel(object):
 
 
 if __name__ == '__main__':
-    oper = OperationExcel()
+    oper = OperationExcel('Sheet1')
     print(oper.get_rows())
     # print(oper.get_row_col_value(1, 1))
     print(oper.get_url(1))

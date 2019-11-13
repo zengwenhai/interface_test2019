@@ -5,8 +5,8 @@ from config.getPath import getpath
 
 class OperationJson(object):
 
-    def __init__(self):
-        self.oper = OperationExcel()
+    def __init__(self, sheetname):
+        self.oper = OperationExcel(sheetname)
         self.path = getpath('data', 'requestData.json')
 
     def read_json(self):
@@ -15,10 +15,10 @@ class OperationJson(object):
             return data
 
     def get_request_data(self, row):
-        """获取请求参数"""
+        """通过用例id获取对应的请求参数"""
         return self.read_json()[self.oper.get_data(row=row)]
 
 
 if __name__ == '__main__':
-    oper = OperationJson()
-    print(type(oper.get_request_data(2)))
+    oper = OperationJson('Sheet1')
+    print(oper.get_request_data(2))

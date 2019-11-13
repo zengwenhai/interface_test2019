@@ -39,8 +39,9 @@ class ConnectDb(object):
     def execute_sql(self, sql, params=None):
         """执行sql语句，数据集存在cursor句柄中"""
         self.cursor.execute(sql, params)
+        self.conn.commit()
         # data = cursor.fetchone()
-        # return data
+        return self.cursor
 
     def get_one_data(self):
         """获取一条数据"""

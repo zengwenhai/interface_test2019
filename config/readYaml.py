@@ -26,4 +26,4 @@ if __name__ == "__main__":
     src_data = {'user': {'name': '可优', 'age': 17, 'money': None, 'gender': True},
                 'lovers': ['柠檬小姐姐', '橘子小姐姐', '小可可']
                 }
-    r.write_value(src_data)
+    #r.write_value(src_data)
