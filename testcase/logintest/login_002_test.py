@@ -23,15 +23,17 @@ class LoginTest(unittest.TestCase):
     def get_data(self):
         return self.data.get_data()
 
-    def test_login_001(self):
-        """测试登录成功"""
-        for i in self.get_data():
+    def apicase(self, case_list):
+        for i in case_list:
             url = urljoin(self.readconfig.get_section_value('HTTP', 'BASE_URL'), i['url'])  # 拼接url路径
         # data = json.loads(self.oper.get_data(2), encoding='utf-8')
             data = i['data']
             method = i['method']
             res = self.runmethod.run_main(url=url, data=data, method=method)
-            print(url)
+
+    def test_login_001(self):
+        """测试登录成功"""
+        self.apicase(self.get_data())
 
     def tearDown(self):
         pass

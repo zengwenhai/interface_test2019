@@ -32,4 +32,4 @@ if __name__ == "__main__":
     print(data.get_data())
     r = data.get_data()
     for i in r:
-        print(i)
+        print(i['url'])
