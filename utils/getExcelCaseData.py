@@ -26,10 +26,10 @@ class ReadExcel(object):
 
 
 if __name__ == "__main__":
-    filepath = r'E:\test1.xls'
+    filepath = r'E:\接口测试\data\datacase\test.xls'
     sheetname = 'Sheet1'
     data = ReadExcel(filepath, sheetname)
     print(data.get_data())
     r = data.get_data()
     for i in r:
-        print(i['测试用例'])
+        print(i)

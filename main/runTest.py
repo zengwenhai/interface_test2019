@@ -48,7 +48,6 @@ class AllTest(object):
             print(e)
         finally:
             on_off = self.readconf.get_section_value('EMAIL', 'ON_OFF')
-            print(on_off)
             if on_off == 'on':
                 self.email.send()
             else:
