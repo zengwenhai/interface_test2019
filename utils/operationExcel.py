@@ -43,6 +43,15 @@ class OperationExcel(object):
         sheet.write(row, int(self.getdatacol.get_except_col()), value)
         data.save(self.path)
 
+    def get_cell_value(self):
+        """获取测试用例数据并添加到一个列表中"""
+        cls = []
+        nrow = self.sheet.nrows  # 获取测试用例的行数
+        for i in range(nrow):  # 循环读取测试用例
+            if self.sheet.row_values(i)[0] != 'CaseId':  # 如果第i行不等于CaseId，则将测试用例这一行数据添加到cls中
+                cls.append(self.sheet.row_values(i))
+        return cls
+
 
 if __name__ == '__main__':
     oper = OperationExcel('Sheet1')
@@ -50,3 +59,4 @@ if __name__ == '__main__':
     # print(oper.get_row_col_value(1, 1))
     print(oper.get_url(1))
     print(oper.get_data(1))
+    print(oper.get_cell_value())

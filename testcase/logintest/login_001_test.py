@@ -21,14 +21,13 @@ class LoginTest(unittest.TestCase):
     def test_login_001(self):
         """测试登录成功"""
         # url = self.oper.get_url(2)
-        url = urljoin(self.readconfig.get_section_value('HTTP', 'BASE_URL'), self.oper.get_data(2))  # 拼接url路径
+        url = urljoin(self.readconfig.get_section_value('HTTP', 'BASE_URL'), self.oper.get_url(2))  # 拼接url路径
         # data = json.loads(self.oper.get_data(2), encoding='utf-8')
         data = self.operjson.get_request_data(2)
         method = self.oper.get_method(2)
         res = self.runmethod.run_main(url=url, data=data, method=method)
         print(url)
 
-    @unittest.skip("跳过该测试案例")
     def test_login_002(self):
         """测试登录，密码为空，登录失败"""
         url = self.oper.get_url(1)

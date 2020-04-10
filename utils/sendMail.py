@@ -6,6 +6,7 @@ from email.mime.text import MIMEText
 from socket import gaierror, error
 from config.readConfig import ReadConfig
 from config.readYaml import ReadYaml
+from utils.log import Logger
 
 
 class Email(object):
@@ -32,6 +33,7 @@ class Email(object):
         self.files = self.readyaml.get_value()['EMAIL']['REPORT_PATH']
         self.message = self.readconf.get_section_value('EMAIL', 'MESSAGE')
         self.msg = MIMEMultipart('related')
+        self.logger = Logger().get_logger()
 
     def file_sort(self, path):
         lists = os.listdir(path)  # 获取该目录下的所有文件，结果以列表形式返回
@@ -79,13 +81,13 @@ class Email(object):
         try:
             smtp_server = smtplib.SMTP(self.server)
         except (gaierror and error) as e:
-            raise ('发送邮件失败，无法连接到SMTP服务器，检查网络以及SMTP服务器%s', e)
+            self.logger.info ('发送邮件失败，无法连接到SMTP服务器，检查网络以及SMTP服务器%s', e)
         else:
             try:
                 smtp_server.login(self.sender, self.password)
                 print('邮件发送成功，如果收件箱没看到邮件，请查看一下垃圾箱！')
             except smtplib.SMTPAuthenticationError as e:
-                raise ("用户名密码验证失败！%s", e)
+                self.logger.info ("用户名密码验证失败！%s", e)
             else:
                 smtp_server.sendmail(self.sender, self.receiver.split(';'), self.msg.as_string())
             finally:

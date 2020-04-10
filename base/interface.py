@@ -15,6 +15,8 @@ print(reportname)
 
 print(os.path.dirname(os.path.dirname(__file__)))
 
-url = 'http://baidu.com'
-params = '/username=zengwenhai'
-print(url + params)
+# url = 'http://baidu.com'
+# params = '/username=zengwenhai'
+# print(url + params)
+print("=========")
+print(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'a', 'b'))

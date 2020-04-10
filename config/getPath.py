@@ -7,4 +7,5 @@ def getpath(filepath, filename):
 
 if __name__ == "__main__":
     print(getpath('config', 'config.ini'))
+    print(getpath('data', 'log'))
     #print(getpath(dirname='data', filepath='report', filename='TestReport2019-10-10-13-53-31.html'))
